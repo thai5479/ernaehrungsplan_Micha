@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ernährungsplan Checkliste Premium</title>
+  <style>
+    :root {
+      --bg-1: #eef6ff;
+      --bg-2: #f7fafc;
+      --card: rgba(255,255,255,0.82);
+      --card-solid: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --soft: #f1f5f9;
+      --border: rgba(148,163,184,0.28);
+      --accent: #16a34a;
+      --accent-dark: #14532d;
+      --blue: #2563eb;
+      --danger: #ef4444;
+      --shadow: 0 20px 60px rgba(15,23,42,0.10);
+      --shadow-soft: 0 10px 30px rgba(15,23,42,0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(37,99,235,0.18), transparent 32rem),
+        radial-gradient(circle at top right, rgba(22,163,74,0.16), transparent 28rem),
+        linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 48%, #ffffff 100%);
+      color: var(--text);
+    }
+
+    .wrap {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 24px 16px 42px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      padding: 26px;
+      margin-bottom: 18px;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: -90px auto auto -90px;
+      width: 220px;
+      height: 220px;
+      border-radius: 999px;
+      background: rgba(37,99,235,0.12);
+      pointer-events: none;
+    }
+
+    .hero-top {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 22px;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: rgba(22,163,74,0.10);
+      color: var(--accent-dark);
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: 0.01em;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(30px, 4vw, 48px);
+      line-height: 1.02;
+      letter-spacing: -0.045em;
+    }
+
+    .sub {
+      color: var(--muted);
+      margin: 0;
+      max-width: 720px;
+      font-size: 16px;
+      line-height: 1.55;
+    }
+
+    .circle {
+      width: 138px;
+      height: 138px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: conic-gradient(var(--accent) calc(var(--p, 0) * 1%), #e2e8f0 0);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.6), var(--shadow-soft);
+    }
+
+    .circle-inner {
+      width: 106px;
+      height: 106px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.92);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      box-shadow: inset 0 0 0 1px rgba(148,163,184,0.20);
+    }
+
+    .circle-value {
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+    }
+
+    .circle-label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      margin-top: -12px;
+    }
+
+    .top-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .stat {
+      background: rgba(255,255,255,0.66);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 15px;
+      box-shadow: 0 8px 24px rgba(15,23,42,0.04);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.055em;
+    }
+
+    .stat-value {
+      font-size: 28px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+    }
+
+    .progress-box {
+      background: rgba(241,245,249,0.78);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 15px;
+    }
+
+    .progress-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+      font-weight: 900;
+    }
+
+    .progress {
+      width: 100%;
+      height: 14px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--blue), var(--accent));
+      transition: width 0.28s ease;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 16px;
+      padding: 13px 16px;
+      font-size: 14px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+      min-height: 46px;
+    }
+
+    button:hover { transform: translateY(-1px); }
+    button:active { transform: translateY(0); }
+
+    .primary { background: linear-gradient(135deg, var(--blue), #1d4ed8); color: white; box-shadow: 0 10px 22px rgba(37,99,235,0.22); }
+    .danger { background: #fee2e2; color: #991b1b; }
+    .secondary { background: #e2e8f0; color: #0f172a; }
+
+    .mobile-tabs { display: none; }
+
+    .week-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(150px, 1fr));
+      gap: 14px;
+    }
+
+    .day-card {
+      position: relative;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      box-shadow: var(--shadow-soft);
+      padding: 16px;
+      min-height: 330px;
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
+      backdrop-filter: blur(14px);
+      overflow: hidden;
+    }
+
+    .day-card.today {
+      border-color: rgba(22,163,74,0.45);
+      box-shadow: 0 18px 45px rgba(22,163,74,0.13);
+    }
+
+    .day-card.done {
+      background: linear-gradient(180deg, rgba(240,253,244,0.95), rgba(255,255,255,0.85));
+      border-color: rgba(22,163,74,0.45);
+    }
+
+    .day-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+    .day-title { font-size: 20px; font-weight: 950; letter-spacing: -0.025em; }
+    .today-pill { display: inline-flex; margin-top: 5px; color: var(--accent-dark); font-size: 12px; font-weight: 900; }
+
+    .badge {
+      font-size: 12px;
+      font-weight: 950;
+      border-radius: 999px;
+      padding: 7px 10px;
+      background: rgba(37,99,235,0.10);
+      color: #1e40af;
+      white-space: nowrap;
+    }
+
+    .plan-box {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(248,250,252,0.76);
+      padding: 12px;
+    }
+
+    .plan-box-title {
+      font-size: 11px;
+      font-weight: 950;
+      color: var(--muted);
+      margin-bottom: 7px;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+    }
+
+    .plan-item { padding: 8px 0; border-top: 1px solid rgba(148,163,184,0.22); }
+    .plan-item:first-child { border-top: 0; padding-top: 0; }
+    .plan-meal { font-size: 13px; font-weight: 950; margin-bottom: 3px; }
+    .plan-food { font-size: 13px; color: var(--text); line-height: 1.36; }
+
+    .meal-list { display: flex; flex-direction: column; gap: 9px; }
+
+    label.task {
+      display: grid;
+      grid-template-columns: 22px minmax(0, 1fr);
+      gap: 10px;
+      align-items: flex-start;
+      padding: 11px;
+      border: 1px solid rgba(148,163,184,0.26);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.76);
+      cursor: pointer;
+      transition: border-color 0.18s ease, transform 0.18s ease, background 0.18s ease;
+    }
+
+    label.task:hover { border-color: rgba(37,99,235,0.34); transform: translateY(-1px); }
+    label.task.checked { background: rgba(240,253,244,0.95); border-color: rgba(22,163,74,0.36); }
+
+    label.task input {
+      margin-top: 2px;
+      width: 20px;
+      height: 20px;
+      accent-color: var(--accent);
+    }
+
+    .task-title { font-weight: 950; font-size: 14px; }
+    .task-time { color: var(--muted); font-size: 12px; margin-top: 2px; display: block; }
+    .day-progress { margin-top: auto; border-top: 1px solid rgba(148,163,184,0.24); padding-top: 12px; }
+    .day-progress small { color: var(--muted); display: block; margin-bottom: 8px; font-weight: 800; }
+    .footer-note { margin-top: 13px; color: var(--muted); font-size: 13px; line-height: 1.45; }
+
+    @media (max-width: 1160px) {
+      .week-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 760px) {
+      .wrap { padding: 14px 10px 28px; }
+      .hero { border-radius: 26px; padding: 18px; }
+      .hero-top { grid-template-columns: 1fr; gap: 16px; }
+      .circle { width: 116px; height: 116px; justify-self: center; }
+      .circle-inner { width: 88px; height: 88px; }
+      .circle-value { font-size: 26px; }
+      .top-grid { grid-template-columns: 1fr 1fr; }
+      .top-grid .stat:last-child { grid-column: 1 / -1; }
+      .stat { padding: 13px; }
+      .stat-value { font-size: 24px; }
+      .actions { display: grid; grid-template-columns: 1fr; }
+      button { width: 100%; }
+
+      .mobile-tabs {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 6px;
+        margin: 0 -10px 12px;
+        padding: 10px;
+        background: rgba(247,250,252,0.88);
+        backdrop-filter: blur(16px);
+        border-bottom: 1px solid rgba(148,163,184,0.20);
+      }
+
+      .day-tab {
+        min-height: 44px;
+        padding: 8px 4px;
+        border-radius: 14px;
+        background: rgba(255,255,255,0.85);
+        color: var(--text);
+        border: 1px solid rgba(148,163,184,0.24);
+        box-shadow: none;
+        font-size: 12px;
+      }
+
+      .day-tab.active { background: #0f172a; color: white; }
+      .day-tab.done { background: #dcfce7; color: #14532d; border-color: rgba(22,163,74,0.35); }
+      .day-tab.today:not(.active) { outline: 2px solid rgba(22,163,74,0.35); }
+
+      .week-grid { display: block; }
+      .day-card { display: none; min-height: auto; border-radius: 26px; padding: 15px; }
+      .day-card.active-mobile { display: flex; }
+      .day-title { font-size: 26px; }
+      .plan-box { padding: 13px; }
+      .plan-food, .plan-meal { font-size: 14px; }
+      .task-title { font-size: 16px; }
+      .task-time { font-size: 13px; }
+      label.task { padding: 13px; grid-template-columns: 24px minmax(0, 1fr); }
+      label.task input { width: 22px; height: 22px; }
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-1: #0f172a;
+        --bg-2: #111827;
+        --card: rgba(15,23,42,0.78);
+        --card-solid: #111827;
+        --text: #f8fafc;
+        --muted: #94a3b8;
+        --soft: #1e293b;
+        --border: rgba(148,163,184,0.18);
+        --shadow: 0 20px 60px rgba(0,0,0,0.28);
+        --shadow-soft: 0 10px 30px rgba(0,0,0,0.22);
+      }
+      body { background: radial-gradient(circle at top left, rgba(37,99,235,0.20), transparent 30rem), radial-gradient(circle at top right, rgba(22,163,74,0.16), transparent 28rem), linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%); }
+      .circle-inner, .stat, .plan-box, label.task, .mobile-tabs { background: rgba(15,23,42,0.72); }
+      .progress { background: #334155; }
+      .secondary { background: #334155; color: #f8fafc; }
+      .danger { background: rgba(239,68,68,0.18); color: #fecaca; }
+      .day-card.done { background: linear-gradient(180deg, rgba(20,83,45,0.40), rgba(15,23,42,0.78)); }
+      label.task.checked { background: rgba(20,83,45,0.42); }
+      .day-tab { background: rgba(15,23,42,0.82); color: #f8fafc; }
+      .day-tab.active { background: #f8fafc; color: #0f172a; }
+      .day-tab.done:not(.active) { background: rgba(20,83,45,0.52); color: #dcfce7; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="hero-top">
+        <div>
+          <div class="eyebrow">🥗 Wochenplan · Checkliste</div>
+          <h1>Mein Ernährungsplan</h1>
+          <p class="sub">7 Tage zum Abhaken: Frühstück, Mittag, Abend und eine Red Bull pro Tag. Auf dem Handy wechselst du bequem über die Tagesleiste.</p>
+        </div>
+        <div class="circle" id="circleProgress" style="--p:0">
+          <div class="circle-inner">
+            <div>
+              <div class="circle-value" id="circleValue">0%</div>
+              <div class="circle-label">erledigt</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="top-grid">
+        <div class="stat"><div class="stat-label">Häkchen</div><div class="stat-value" id="doneCount">0 / 28</div></div>
+        <div class="stat"><div class="stat-label">Tage komplett</div><div class="stat-value" id="fullDays">0 / 7</div></div>
+        <div class="stat"><div class="stat-label">Heute</div><div class="stat-value" id="todayLabel">-</div></div>
+      </div>
+
+      <div class="progress-box">
+        <div class="progress-row"><span>Wochenfortschritt</span><span id="progressLabel">0%</span></div>
+        <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+      </div>
+
+      <div class="actions">
+        <button class="primary" id="checkAllTodayBtn">⭐ Heutigen Tag fertig markieren</button>
+        <button class="secondary" id="exportBtn">📋 Status kopieren</button>
+        <button class="danger" id="resetBtn">↺ Alles zurücksetzen</button>
+      </div>
+      <div class="footer-note">Deine Häkchen bleiben lokal im Browser gespeichert. Auf dem Handy wird nur ein Tag angezeigt, damit alles lesbar bleibt.</div>
+    </section>
+
+    <nav class="mobile-tabs" id="mobileTabs" aria-label="Tage auswählen"></nav>
+    <section class="week-grid" id="weekGrid"></section>
+  </div>
+
+  <script>
+    const days = [
+      {
+        name: "Montag",
+        tasks: [
+          { key: "breakfast", title: "Frühstück", time: "08:00-10:00" },
+          { key: "lunch", title: "Mittag", time: "12:00-14:00" },
+          { key: "dinner", title: "Abend", time: "18:00-19:00" },
+          { key: "redbull", title: "Red Bull", time: "1 Dose am Tag" }
+        ],
+        plan: [
+          { meal: "Frühstück", food: "Panema Vollkornbrot mit Ei - 2 Scheiben + 2 Eier" },
+          { meal: "Mittag", food: "Weizen-Nudeln mit Tomatensalat - 80 g trocken + Salat" },
+          { meal: "Abend", food: "Salat mit magerer Wurst und Ei - große Schüssel + 1 Ei + 60 g Wurst" }
+        ]
+      },
+      {
+        name: "Dienstag",
+        tasks: [
+          { key: "breakfast", title: "Frühstück", time: "08:00-10:00" },
+          { key: "lunch", title: "Mittag", time: "12:00-14:00" },
+          { key: "dinner", title: "Abend", time: "18:00-19:00" },
+          { key: "redbull", title: "Red Bull", time: "1 Dose am Tag" }
+        ],
+        plan: [
+          { meal: "Frühstück", food: "Eier als Rührei mit Panema Vollkornbrot - 2 Eier + 1 Scheibe" },
+          { meal: "Mittag", food: "Reis mit Ei und Salat - 70 g roh + 2 Eier" },
+          { meal: "Abend", food: "Panema Vollkornbrot mit magerer Wurst + Salat - 2 Scheiben + 60 g" }
+        ]
+      },
+      {
+        name: "Mittwoch",
+        tasks: [
+          { key: "breakfast", title: "Frühstück", time: "08:00-10:00" },
+          { key: "lunch", title: "Mittag", time: "12:00-14:00" },
+          { key: "dinner", title: "Abend", time: "18:00-19:00" },
+          { key: "redbull", title: "Red Bull", time: "1 Dose am Tag" }
+        ],
+        plan: [
+          { meal: "Frühstück", food: "Panema Vollkornbrot mit Ei - 1 Scheibe + 2 Eier" },
+          { meal: "Mittag", food: "Weizen-Nudeln mit Eierstreifen und Salat - 80 g + 1 Ei" },
+          { meal: "Abend", food: "Reis-Salat-Bowl mit magerer Wurst - 70 g roh + 60 g Wurst" }
+        ]
+      },
+      {
+        name: "Donnerstag",
+        tasks: [
+          { key: "breakfast", title: "Frühstück", time: "08:00-10:00" },
+          { key: "lunch", title: "Mittag", time: "12:00-14:00" },
+          { key: "dinner", title: "Abend", time: "18:00-19:00" },
+          { key: "redbull", title: "Red Bull", time: "1 Dose am Tag" }
+        ],
+        plan: [
+          { meal: "Frühstück", food: "Eier auf Panema Vollkornbrot - 2 Eier + 1 Scheibe" },
+          { meal: "Mittag", food: "Reis mit magerer Wurst und Salat - 70 g + 60 g" },
+          { meal: "Abend", food: "Großer Salat mit Ei - große Schüssel + 2 Eier" }
+        ]
+      },
+      {
+        name: "Freitag",
+        tasks: [
+          { key: "breakfast", title: "Frühstück", time: "08:00-10:00" },
+          { key: "lunch", title: "Mittag", time: "12:00-14:00" },
+          { key: "dinner", title: "Abend", time: "18:00-19:00" },
+          { key: "redbull", title: "Red Bull", time: "1 Dose am Tag" }
+        ],
+        plan: [
+          { meal: "Frühstück", food: "Panema Vollkornbrot mit magerer Wurst - 2 Scheiben + 60 g" },
+          { meal: "Mittag", food: "Weizen-Nudeln mit Salat - 80 g + Salat" },
+          { meal: "Abend", food: "Reis mit Ei und Salat - 70 g + 2 Eier" }
+        ]
+      },
+      {
+        name: "Samstag",
+        tasks: [
+          { key: "breakfast", title: "Frühstück", time: "08:00-10:00" },
+          { key: "lunch", title: "Mittag", time: "12:00-14:00" },
+          { key: "dinner", title: "Abend", time: "18:00-19:00" },
+          { key: "redbull", title: "Red Bull", time: "1 Dose am Tag" }
+        ],
+        plan: [
+          { meal: "Frühstück", food: "Eier mit Panema Vollkornbrot - 2 Eier + 1 Scheibe" },
+          { meal: "Mittag", food: "Reis-Bowl mit Ei und Salat - 70 g + 2 Eier" },
+          { meal: "Abend", food: "Panema Vollkornbrot mit Wurst + Salat - 2 Scheiben + 60 g" }
+        ]
+      },
+      {
+        name: "Sonntag",
+        tasks: [
+          { key: "breakfast", title: "Frühstück", time: "08:00-10:00" },
+          { key: "lunch", title: "Mittag", time: "12:00-14:00" },
+          { key: "dinner", title: "Abend", time: "18:00-19:00" },
+          { key: "redbull", title: "Red Bull", time: "1 Dose am Tag" }
+        ],
+        plan: [
+          { meal: "Frühstück", food: "Panema Vollkornbrot + Ei - 2 Scheiben + 1 Ei" },
+          { meal: "Mittag", food: "Weizen-Nudeln mit Ei und Salat - 80 g + 1 Ei" },
+          { meal: "Abend", food: "Großer Salat mit magerer Wurst - große Schüssel + 60 g Wurst" }
+        ]
+      }
+    ];
+
+    const storageKey = "ernaehrungsplan-checkliste-premium-v2";
+    const weekGrid = document.getElementById("weekGrid");
+    const mobileTabs = document.getElementById("mobileTabs");
+    let activeDay = getTodayName();
+
+    function getTodayName() {
+      const index = new Date().getDay();
+      const map = { 1: 'Montag', 2: 'Dienstag', 3: 'Mittwoch', 4: 'Donnerstag', 5: 'Freitag', 6: 'Samstag', 0: 'Sonntag' };
+      return map[index];
+    }
+
+    function getInitialState() {
+      const state = {};
+      days.forEach(day => day.tasks.forEach(task => state[taskId(day.name, task.key)] = false));
+      return state;
+    }
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(storageKey) || localStorage.getItem("ernaehrungsplan-checkliste-v1");
+        if (!raw) return getInitialState();
+        return { ...getInitialState(), ...JSON.parse(raw) };
+      } catch {
+        return getInitialState();
+      }
+    }
+
+    let state = loadState();
+
+    function saveState() { localStorage.setItem(storageKey, JSON.stringify(state)); }
+    function taskId(dayName, key) { return dayName + "_" + key; }
+    function shortDay(name) { return { Montag:'Mo', Dienstag:'Di', Mittwoch:'Mi', Donnerstag:'Do', Freitag:'Fr', Samstag:'Sa', Sonntag:'So' }[name] || name.slice(0,2); }
+    function mealIcon(title) { return { Frühstück:'🥣', Mittag:'🍝', Abend:'🥗', 'Red Bull':'🥤' }[title] || '✓'; }
+
+    function renderTabs() {
+      mobileTabs.innerHTML = "";
+      const today = getTodayName();
+      days.forEach(day => {
+        const doneTasks = day.tasks.filter(task => state[taskId(day.name, task.key)]).length;
+        const isDone = doneTasks === day.tasks.length;
+        const btn = document.createElement('button');
+        btn.className = 'day-tab' + (day.name === activeDay ? ' active' : '') + (isDone ? ' done' : '') + (day.name === today ? ' today' : '');
+        btn.textContent = shortDay(day.name);
+        btn.title = day.name;
+        btn.addEventListener('click', () => { activeDay = day.name; render(); });
+        mobileTabs.appendChild(btn);
+      });
+    }
+
+    function render() {
+      weekGrid.innerHTML = "";
+      const today = getTodayName();
+      document.getElementById('todayLabel').textContent = shortDay(today);
+
+      days.forEach(day => {
+        const card = document.createElement("div");
+        const doneTasks = day.tasks.filter(task => state[taskId(day.name, task.key)]).length;
+        const percent = Math.round((doneTasks / day.tasks.length) * 100);
+        card.className = "day-card";
+        if (percent === 100) card.classList.add("done");
+        if (day.name === today) card.classList.add("today");
+        if (day.name === activeDay) card.classList.add("active-mobile");
+
+        const tasksHtml = day.tasks.map(task => {
+          const checked = state[taskId(day.name, task.key)] ? "checked" : "";
+          return '<label class="task ' + (checked ? 'checked' : '') + '">'
+            + '<input type="checkbox" data-day="' + day.name + '" data-key="' + task.key + '" ' + checked + ' />'
+            + '<span class="task-text">'
+            + '<span class="task-title">' + mealIcon(task.title) + ' ' + task.title + '</span>'
+            + '<span class="task-time">' + task.time + '</span>'
+            + '</span>'
+            + '</label>';
+        }).join("");
+
+        const planHtml = day.plan.map(item => '<div class="plan-item"><div class="plan-meal">' + item.meal + '</div><div class="plan-food">' + item.food + '</div></div>').join('');
+
+        card.innerHTML = ''
+          + '<div class="day-head">'
+          + '<div><div class="day-title">' + day.name + '</div>' + (day.name === today ? '<div class="today-pill">⭐ Heute</div>' : '') + '</div>'
+          + '<div class="badge">' + percent + '%</div>'
+          + '</div>'
+          + '<div class="plan-box"><div class="plan-box-title">Essensplan</div>' + planHtml + '</div>'
+          + '<div class="meal-list">' + tasksHtml + '</div>'
+          + '<div class="day-progress"><small>' + doneTasks + ' von ' + day.tasks.length + ' erledigt</small><div class="progress"><div class="progress-bar" style="width:' + percent + '%"></div></div></div>';
+
+        weekGrid.appendChild(card);
+      });
+
+      bindCheckboxes();
+      updateSummary();
+      renderTabs();
+    }
+
+    function bindCheckboxes() {
+      document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+        cb.addEventListener('change', e => {
+          state[taskId(e.target.dataset.day, e.target.dataset.key)] = e.target.checked;
+          saveState();
+          render();
+        });
+      });
+    }
+
+    function updateSummary() {
+      const values = Object.values(state);
+      const doneCount = values.filter(Boolean).length;
+      const totalCount = values.length;
+      const percent = Math.round((doneCount / totalCount) * 100);
+      let fullDays = 0;
+      days.forEach(day => { if (day.tasks.every(task => state[taskId(day.name, task.key)])) fullDays += 1; });
+      document.getElementById('doneCount').textContent = doneCount + ' / ' + totalCount;
+      document.getElementById('fullDays').textContent = fullDays + ' / 7';
+      document.getElementById('progressLabel').textContent = percent + '%';
+      document.getElementById('progressBar').style.width = percent + '%';
+      document.getElementById('circleValue').textContent = percent + '%';
+      document.getElementById('circleProgress').style.setProperty('--p', percent);
+    }
+
+    function markLikelyToday() {
+      const todayName = getTodayName();
+      const found = days.find(d => d.name === todayName);
+      if (!found) return;
+      activeDay = todayName;
+      found.tasks.forEach(task => state[taskId(todayName, task.key)] = true);
+      saveState();
+      render();
+    }
+
+    document.getElementById('checkAllTodayBtn').addEventListener('click', markLikelyToday);
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      const ok = confirm('Wirklich alle Häkchen zurücksetzen?');
+      if (!ok) return;
+      state = getInitialState();
+      saveState();
+      render();
+    });
+    document.getElementById('exportBtn').addEventListener('click', async () => {
+      const lines = days.map(day => {
+        const doneTasks = day.tasks.filter(task => state[taskId(day.name, task.key)]).length;
+        return day.name + ': ' + doneTasks + '/4 erledigt';
+      });
+      const text = lines.join('\\n');
+      try { await navigator.clipboard.writeText(text); alert('Status wurde kopiert.'); } catch { alert(text); }
+    });
+
+    render();
+  </script>
+</body>
+</html>
